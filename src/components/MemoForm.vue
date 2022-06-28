@@ -4,41 +4,54 @@
     <div class="center">
         <button @click="save">保存</button>
         <button @click="remove" v-if="memo.id">削除</button>
+        <VueJsonToCsv :json-data="csvData" :csv-title="csvファイルのタイトル" :labels="labels">
+        <botton @click="download" v-if="memo.id">ダウンロード</botton>
+        </VueJsonToCsv> 
     </div>
 </template>
 
 <script>
+// import Vue from 'vue'
+import VueJsonToCsv from 'vue-json-to-csv' // eslint-disable-line
 export default {
-        name:'MemoForm',
-        props:[
-            'memo'
-        ],
-        data(){
-            return {
-                title:this.memo.title,
-                content:this.memo.content
-            }
-        },
-        methods:{
-            save() {
-                let memo = {
-                    title: this.title,
-                    content:this.content
-                }
-
-                if(this.memo.id) {
-                    memo.id = this.memo.id
-                }
-
-                this.$store.commit('save',memo)
-                this.$router.push('/')
-            },
-            remove(){
-                this.$store.commit('delete',this.memo.id)
-                this.$router.push('/')
-            }
+    components: {
+    VueJsonToCsv
+    },
+    name:'MemoForm',
+    props:[
+        'memo'
+    ],
+    
+    data(){
+        return {
+            title:this.memo.title,
+            content:this.memo.content
         }
+    },
+    methods:{
+        save() {
+            let memo = {
+                title: this.title,
+                content:this.content
+            }
+
+            if(this.memo.id) {
+                memo.id = this.memo.id
+            }
+
+            this.$store.commit('save',memo)
+            this.$router.push('/')
+        },
+        remove(){
+            this.$store.commit('delete',this.memo.id)
+            this.$router.push('/')
+        },
+        download() {
+            this.json_data.push({ name: 'hige', surname: 'Roe', email: 'hogehoge@example.com' })
+        }
+    }
 }
+
 </script>
 
 
