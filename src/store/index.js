@@ -36,7 +36,6 @@ export default createStore({
     },
     delete(state,id) {
       state.memos = state.memos.filter(memo => memo.id !== id)
-
     }
   },
   actions: {
